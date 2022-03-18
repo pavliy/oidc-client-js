@@ -127,7 +127,9 @@ export class UserManager extends OidcClient {
         return this._signin(args, this._popupNavigator, {
             startUrl: url,
             popupWindowFeatures: args.popupWindowFeatures || this.settings.popupWindowFeatures,
-            popupWindowTarget: args.popupWindowTarget || this.settings.popupWindowTarget
+            popupWindowTarget: args.popupWindowTarget || this.settings.popupWindowTarget,
+            scriptOrigin: args.scriptOrigin || this.settings.scriptOrigin,
+            frameTargetOrigin: args.frameTargetOrigin || this.settings.frameTargetOrigin
         }).then(user => {
             if (user) {
                 if (user.profile && user.profile.sub) {
@@ -258,7 +260,9 @@ export class UserManager extends OidcClient {
 
         return this._signin(args, this._iframeNavigator, {
             startUrl: url,
-            silentRequestTimeout: args.silentRequestTimeout || this.settings.silentRequestTimeout
+            silentRequestTimeout: args.silentRequestTimeout || this.settings.silentRequestTimeout,
+            scriptOrigin: args.scriptOrigin || this.settings.scriptOrigin,
+            frameTargetOrigin: args.frameTargetOrigin || this.settings.frameTargetOrigin
         }).then(user => {
             if (user) {
                 if (user.profile && user.profile.sub) {
@@ -336,7 +340,9 @@ export class UserManager extends OidcClient {
 
         return this._signinStart(args, this._iframeNavigator, {
             startUrl: url,
-            silentRequestTimeout: args.silentRequestTimeout || this.settings.silentRequestTimeout
+            silentRequestTimeout: args.silentRequestTimeout || this.settings.silentRequestTimeout,
+            scriptOrigin: args.scriptOrigin || this.settings.scriptOrigin,
+            frameTargetOrigin: args.frameTargetOrigin || this.settings.frameTargetOrigin
         }).then(navResponse => {
             return this.processSigninResponse(navResponse.url).then(signinResponse => {
                 Log.debug("UserManager.querySessionStatus: got signin response");

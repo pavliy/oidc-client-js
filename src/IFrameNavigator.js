@@ -6,7 +6,13 @@ import { IFrameWindow } from './IFrameWindow.js';
 
 export class IFrameNavigator {
 
+    constructor(frameTargetOrigin) {
+        this._frameTargetOrigin = frameTargetOrigin;
+    }
+
     prepare(params) {
+        this._frameTargetOrigin = params.frameTargetOrigin || this._frameTargetOrigin;
+
         let frame = new IFrameWindow(params);
         return Promise.resolve(frame);
     }
@@ -15,7 +21,7 @@ export class IFrameNavigator {
         Log.debug("IFrameNavigator.callback");
 
         try {
-            IFrameWindow.notifyParent(url);
+            IFrameWindow.notifyParent(url, this._frameTargetOrigin);
             return Promise.resolve();
         }
         catch (e) {

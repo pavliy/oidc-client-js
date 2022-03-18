@@ -31,9 +31,11 @@ export class UserManagerSettings extends OidcClientSettings {
         query_status_response_type,
         revokeAccessTokenOnSignout = false,
         accessTokenExpiringNotificationTime = DefaultAccessTokenExpiringNotificationTime,
+        scriptOrigin,
+        frameTargetOrigin,
         redirectNavigator = new RedirectNavigator(),
         popupNavigator = new PopupNavigator(),
-        iframeNavigator = new IFrameNavigator(),
+        iframeNavigator,
         userStore = new WebStorageStateStore({ store: Global.sessionStorage })
     } = {}) {
         super(arguments[0]);
@@ -65,9 +67,12 @@ export class UserManagerSettings extends OidcClientSettings {
         }
         this._revokeAccessTokenOnSignout = revokeAccessTokenOnSignout;
 
+        this._scriptOrigin = scriptOrigin;
+        this._frameTargetOrigin = frameTargetOrigin;
+
         this._redirectNavigator = redirectNavigator;
         this._popupNavigator = popupNavigator;
-        this._iframeNavigator = iframeNavigator;
+        this._iframeNavigator = (typeof iframeNavigator === "undefined") ? new IFrameNavigator( this._frameTargetOrigin ) : iframeNavigator;
 
         this._userStore = userStore;
     }
@@ -121,6 +126,14 @@ export class UserManagerSettings extends OidcClientSettings {
     }
     get revokeAccessTokenOnSignout() {
         return this._revokeAccessTokenOnSignout;
+    }
+
+    get scriptOrigin() {
+        return this._scriptOrigin;
+    }
+
+    get frameTargetOrigin() {
+        return this._frameTargetOrigin;
     }
 
     get redirectNavigator() {
