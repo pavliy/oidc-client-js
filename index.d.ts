@@ -141,6 +141,10 @@ export interface OidcClientSettings {
   readonly response_mode?: string;
   /** The scope being requested from the OIDC/OAuth2 provider (default: 'openid') */
   readonly scope?: string;
+  /** The script origin - from which code is loaded and executed */
+  readonly scriptOrigin?: string;
+  /** The origin where we need to make postMessage */
+  readonly frameTargetOrigin?: string;
   /** The redirect URI of your client application to receive a response from the OIDC/OAuth2 provider */
   readonly redirect_uri?: string;
   /** The OIDC/OAuth2 post-logout redirect URI */
