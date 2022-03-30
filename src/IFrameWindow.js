@@ -13,6 +13,8 @@ export class IFrameWindow {
             this._reject = reject;
         });
 
+        this._scriptOrigin = params.scriptOrigin;
+
         this._boundMessageEvent = this._message.bind(this);
         window.addEventListener("message", this._boundMessageEvent, false);
 
@@ -100,15 +102,15 @@ export class IFrameWindow {
     }
 
     get _origin() {
-        return location.protocol + "//" + location.host;
+        return this._scriptOrigin || location.protocol + "//" + location.host;
     }
 
-    static notifyParent(url) {
+    static notifyParent(url, frameTargetOrigin) {
         Log.debug("IFrameWindow.notifyParent");
         url = url || window.location.href;
         if (url) {
             Log.debug("IFrameWindow.notifyParent: posting url message to parent");
-            window.parent.postMessage(url, location.protocol + "//" + location.host);
+            window.parent.postMessage(url, frameTargetOrigin);
         }
     }
 }
